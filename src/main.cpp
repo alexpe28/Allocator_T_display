@@ -121,9 +121,7 @@ void allo_task(void* pvParameters) {
 
 void deallo_task(void* pvParameters) {
     while (1) {
-        // int numBlocks = getRandom(MIN_BLOCKS, MAX_BLOCKS);
-        int numBlocks = 5;
-        for (int i = 0; i < numBlocks; ++i) {
+        for (int i = 0; i < DE_BLOCKS; ++i) {
             for (int j = 0; j < POOL_SIZE / BLOCK_SIZE; ++j) {
                 if (allocatedBlocks[j] != nullptr) {
                     allocator.deallocate(allocatedBlocks[j]);
