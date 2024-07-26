@@ -1,11 +1,17 @@
+            Библиотека простого блочного аллокатора BlockAllocator и пример её использования на модуле ESP32-T-Display.
 
-This directory is intended for PlatformIO Test Runner and project tests.
+    allocate:       выделение блока памяти
+    deallocate:     освобождение блока памяти
 
-Unit Testing is a software testing method by which individual units of
-source code, sets of one or more MCU program modules together with associated
-control data, usage procedures, and operating procedures, are tested to
-determine whether they are fit for use. Unit testing finds problems early
-in the development cycle.
+    getUsedCount:   Возвращает количество занятых блоков
+    reset:          Сбрасывает аллокатор, освобождая все блоки
+    checkIntegrity: Проверяет целостность пула, убеждаясь, что все свободные блоки находятся в допустимом диапазоне
 
-More information about PlatformIO Unit Testing:
-- https://docs.platformio.org/en/latest/advanced/unit-testing/index.html
+    Тесты:
+    test_allocation_and_deallocation:   Проверяет корректность выделения и освобождения блоков
+    test_overflow:                      Проверяет поведение при попытке выделения блоков, превышающих размер пула
+    test_used_and_free_count:           Проверяет корректность функций getUsedCount и getFreeCount
+    test_reset_allocator:               Проверяет корректность функции сброса аллокатора
+    test_integrity:                     Проверяет целостность пула
+
+    

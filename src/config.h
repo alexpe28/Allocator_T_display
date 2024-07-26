@@ -1,16 +1,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-// Размер блока памяти
-#define BLOCK_SIZE 8
-
-// Общий размер пула памяти
-#define POOL_SIZE 320
-
-// Минимальное количество блоков для выделения/освобождения
-#define MIN_BLOCKS 1
-
-// Максимальное количество блоков для выделения/освобождения
-#define MAX_BLOCKS 15
+#define BLOCK_SIZE 8    // Memory block size
+#define POOL_SIZE 320   // Total size of the memory pool
+#define MIN_BLOCKS 1    // Minimum number of blocks to allocate/deallocate (used by randomizer)
+#define MAX_BLOCKS 15   // Maximum number of blocks to allocate/deallocate (used by randomizer)
 
 #endif // CONFIG_H
