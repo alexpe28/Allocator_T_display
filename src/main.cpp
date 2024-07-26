@@ -14,11 +14,11 @@ TaskHandle_t display_task_handle;
 TaskHandle_t allo_task_handle;
 TaskHandle_t deallo_task_handle;
 
-// random
 int getRandom(int min, int max) {
     return rand() % (max - min + 1) + min;
 }
 
+// Draw grig. Called once per setup.
 void drawGrid() {
     tft.fillScreen(TFT_BLACK);
     
@@ -35,6 +35,7 @@ void drawGrid() {
     }
 }
 
+// Function to paint all cells green. Called once per setup.
 void fillAllCellsGreen() {
     size_t numBlocks = allocator.getPoolSize() / allocator.getBlockSize();
     size_t cols = sqrt(numBlocks);
@@ -49,6 +50,7 @@ void fillAllCellsGreen() {
     }
 }
 
+// function of coloring the specified cell in the desired color
 void updateCell(size_t index, uint16_t color) {
     size_t numBlocks = allocator.getPoolSize() / allocator.getBlockSize();
     size_t cols = sqrt(numBlocks);
@@ -90,6 +92,8 @@ void displayGameOver() {
         delay(500);
     }
 }
+
+// allo_task & deallo_task: These tasks work in turn.
 
 void allo_task(void* pvParameters) {
     while (1) {
