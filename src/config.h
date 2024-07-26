@@ -2,7 +2,7 @@
 #define CONFIG_H
 
 // Размер блока памяти
-#define BLOCK_SIZE 4
+#define BLOCK_SIZE 8
 
 // Общий размер пула памяти
 #define POOL_SIZE 320
@@ -11,6 +11,6 @@
 #define MIN_BLOCKS 1
 
 // Максимальное количество блоков для выделения/освобождения
-#define MAX_BLOCKS 30
+#define MAX_BLOCKS 15
 
 #endif // CONFIG_H

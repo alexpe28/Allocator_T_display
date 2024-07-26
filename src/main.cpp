@@ -3,15 +3,18 @@
 #include "config.h"
 #include "BlockAllocator.h"
 
+
 TFT_eSPI tft = TFT_eSPI();
 BlockAllocator allocator(BLOCK_SIZE, POOL_SIZE);
 
+// Arr for pointers to allo blocks
 void* allocatedBlocks[POOL_SIZE / BLOCK_SIZE] = {nullptr};
 
 TaskHandle_t display_task_handle;
 TaskHandle_t allo_task_handle;
 TaskHandle_t deallo_task_handle;
 
+// random
 int getRandom(int min, int max) {
     return rand() % (max - min + 1) + min;
 }
@@ -72,9 +75,29 @@ void display_task(void* pvParameters) {
     }
 }
 
+void displayGameOver() {
+    const char* message = "GAME OVER";
+    size_t len = strlen(message);
+    tft.setTextSize(4);
+    int16_t x = (tft.width() - tft.textWidth(message)) / 2;
+    int16_t y = (tft.height() - tft.fontHeight()) / 2;
+    uint16_t colors[] = {TFT_RED, TFT_GREEN, TFT_BLUE, TFT_YELLOW, TFT_CYAN, TFT_MAGENTA};
+    size_t colorCount = sizeof(colors) / sizeof(colors[0]);
+    
+    for (size_t i = 0; i < 10; ++i) {
+        tft.setTextColor(colors[i % colorCount]);
+        tft.drawString(message, x, y);
+        delay(500);
+    }
+}
+
 void allo_task(void* pvParameters) {
     while (1) {
         int numBlocks = getRandom(MIN_BLOCKS, MAX_BLOCKS);
+        if (allocator.getFreeCount() < numBlocks) {
+            displayGameOver();
+            vTaskSuspend(NULL);
+        }
         for (int i = 0; i < numBlocks; ++i) {
             void* block = allocator.allocate();
             if (block != nullptr) {
@@ -95,7 +118,7 @@ void allo_task(void* pvParameters) {
 void deallo_task(void* pvParameters) {
     while (1) {
         // int numBlocks = getRandom(MIN_BLOCKS, MAX_BLOCKS);
-        int numBlocks = 14;
+        int numBlocks = 5;
         for (int i = 0; i < numBlocks; ++i) {
             for (int j = 0; j < POOL_SIZE / BLOCK_SIZE; ++j) {
                 if (allocatedBlocks[j] != nullptr) {
@@ -105,7 +128,7 @@ void deallo_task(void* pvParameters) {
                 }
             }
         }
-        vTaskDelay(pdMS_TO_TICKS(400));
+        vTaskDelay(pdMS_TO_TICKS(1000));
         vTaskResume(allo_task_handle);
         vTaskSuspend(NULL);
     }
@@ -113,7 +136,7 @@ void deallo_task(void* pvParameters) {
 
 void setup() {
     tft.begin();
-    tft.setRotation(1);
+    tft.setRotation(3);
 
     drawGrid();
     fillAllCellsGreen();
