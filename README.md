@@ -1,7 +1,7 @@
     Библиотека простого блочного аллокатора BlockAllocator 
     и пример её нагляднго использования на модуле ESP32-T-Display.
 
-    ![image](https://github.com/user-attachments/assets/9a0249a6-1225-4c1b-a0fc-1c8f4ffcfcb4)
+    ![image](https://github.com/alexpe28/Allocator_T_display/blob/main/assets/demo.png)
 
     /*===================================================================================================================*/
 
