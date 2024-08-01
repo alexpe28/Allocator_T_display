@@ -62,12 +62,32 @@ void test_integrity() {
     TEST_ASSERT_TRUE(allocator.checkIntegrity());
 }
 
+void test_defragmentation() {
+    BlockAllocator allocator(16, 256);
+
+    void* blocks[16];
+    for (int i = 0; i < 16; ++i) {
+        blocks[i] = allocator.allocate();
+        TEST_ASSERT_NOT_NULL(blocks[i]);
+    }
+
+    for (int i = 0; i < 8; ++i) {
+        allocator.deallocate(blocks[i * 2]);
+    }
+
+    allocator.defrag();
+    
+    TEST_ASSERT_EQUAL(8, allocator.getFreeCount());
+    TEST_ASSERT_TRUE(allocator.checkIntegrity());
+}
+
 void setup() {
     UNITY_BEGIN();
     RUN_TEST(test_allocation_and_deallocation);
     RUN_TEST(test_overflow);
     RUN_TEST(test_used_and_free_count);
     RUN_TEST(test_reset_allocator);
+    RUN_TEST(test_defragmentation);
     RUN_TEST(test_integrity);
     UNITY_END();
 }
